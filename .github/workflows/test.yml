@@ -13,10 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install cypress and verify
+      - name: Install Package
         run: npm install
       - name: Start Server
-        run: npm start
+        uses: ./
+        with:
+          start: npm start
+          wait-on: 'http://localhost:4100'
       - name: Run Cypress tests
         run: npm run test:chrome
         continue-on-error: true
