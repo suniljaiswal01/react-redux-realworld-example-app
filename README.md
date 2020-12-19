@@ -1,5 +1,10 @@
 # ![React + Redux Example App](project-logo.png)
 
+
+<a href="https://github.com/suniljaiswal01/react-redux-realworld-example-app/actions?query=workflow%3ATest">
+        <img alt="Build Status" src="https://github.com/suniljaiswal01/react-redux-realworld-example-app/workflows/Test/badge.svg?branch=master">
+    </a>
+
 [![RealWorld Frontend](https://img.shields.io/badge/realworld-frontend-%23783578.svg)](http://realworld.io)
 
 > ### React + Redux codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
