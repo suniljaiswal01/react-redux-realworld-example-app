@@ -16,10 +16,7 @@ jobs:
       - name: Install Package
         run: npm install
       - name: Start Server
-        uses: ./
-        with:
-          start: npm start
-          wait-on: 'http://localhost:4100'
+        run: nohup npm run start > /dev/null 2>&1 &
       - name: Run Cypress tests
         run: npm run test:chrome
         continue-on-error: true
