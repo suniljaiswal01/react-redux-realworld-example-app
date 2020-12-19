@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v1
       
       - name: Cypress Run
-        uses: react-redux-realworld-example-app/github-actions@v1
+        uses: react-redux-realworld-example-app
         with:
           build: npm install
           start : npm start
