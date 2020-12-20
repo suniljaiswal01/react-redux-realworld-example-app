@@ -3,104 +3,66 @@
 describe("Commenting on self blog",() =>{
 
     beforeEach(() =>{
-        cy.visit("http://localhost:4100/")
-        cy.xpath('//a[contains(@href,"login")]')
-          .click()
-          .url()
-          .should('contain','login')
-        cy.get('input[placeholder="Email"]')
-        .type("sunil10j@gmail.com")
-
-        cy.get('input[placeholder="Password"]')
-        .type('Test@2020')
-
-        cy.xpath('//button[text()="Sign in"]')
-        .click()
-
-        cy.xpath('//body')
-        .should("contain.text","New Post")
+        cy.fixture('BasicDetails').then(function (data) {
+            cy.visit(data.AppUrl)        
+            cy.login(data.email,data.password)
+            cy.xpath('//body')
+            .should("contain.text","New Post")
+          }) 
     })
 
     it("Commenting On Article",() =>{
-        cy.xpath('//a[img[@class="user-pic"]]')
-        .click()
+        cy.clickElementByXpath(`//a[img[@class="user-pic"]]`)
+        cy.wait(3000)
+        .reload()
 
-        cy.reload()
+        cy.get('.preview-link').then(($link)=>{
+            cy.clickElementByCss(`.preview-link`)
+            cy.enterTextByXpath(`//div[@class="card-block"]/textarea`,"This is sample comment")
+            cy.clickElementByXpath(`//button[text()="Post Comment"]`)
+            cy.containText('.card-text','This is sample comment')
+        })
 
-        cy.get('.preview-link')
-        .first()
-        .click()
-
-        cy.xpath('//div[@class="card-block"]/textarea')
-        .type("This is sample comment")
-
-        cy.xpath('//button[text()="Post Comment"]')
-        .click()
-
-        cy.get('.card-text')
-        .should('contain.text','This is sample comment')
+        
+        
 
     })
 
     it("Delete Comment from Article",() =>{
-        cy.xpath('//a[img[@class="user-pic"]]')
-        .click()
+        cy.clickElementByXpath(`//a[img[@class="user-pic"]]`)
+        cy.wait(3000)
+        .reload()
 
-        cy.reload()
-        
-        cy.get('.preview-link')
-        .first()
-        .click()
-
-        cy.xpath('//div[@class="card-footer"]//i[@class="ion-trash-a"]')
-        .first()
-        .click()
+        cy.get('.preview-link').then(($link)=>{
+            cy.clickElementByCss(`.preview-link`)
+            cy.clickElementByXpath(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`)
+        })
     })
 })
 
 describe("Commenting and deleting on others blog",() =>{
 
     beforeEach(() =>{
-        cy.visit("http://localhost:4100/")
-        cy.xpath('//a[contains(@href,"login")]')
-          .click()
-          .url()
-          .should('contain','login')
-        cy.get('input[placeholder="Email"]')
-        .type("sunil10j@gmail.com")
-
-        cy.get('input[placeholder="Password"]')
-        .type('Test@2020')
-
-        cy.xpath('//button[text()="Sign in"]')
-        .click()
-
-        cy.xpath('//body')
-        .should("contain.text","New Post")
+        cy.fixture('BasicDetails').then(function (data) {
+            cy.visit(data.AppUrl)        
+            cy.login(data.email,data.password)
+            cy.xpath('//body')
+            .should("contain.text","New Post")
+          })     
     })
 
     it("Commenting On Article",() =>{
-        cy.xpath('//a[text()="Global Feed"]')
-        .click()
+        cy.clickElementByXpath(`//a[text()="Global Feed"]`)
 
         let username = "suniljaiswal"
         let article = "//div[div[a[@class='author' and not(text()='"+username+"')]]]/following-sibling::a"
+        cy.clickElementByXpath(article)
 
-        cy.xpath(article)
-        .first()
-        .click()
+        cy.enterTextByXpath(`//div[@class="card-block"]/textarea`,"This is sample comment")
+        cy.clickElementByXpath(`//button[text()="Post Comment"]`)
 
-        cy.xpath('//div[@class="card-block"]/textarea')
-        .type("This is sample comment")
-
-        cy.xpath('//button[text()="Post Comment"]')
-        .click()
-
-        cy.get('.card-text')
-        .should('contain.text','This is sample comment')
-
-        cy.xpath('//div[@class="card-footer"]//i[@class="ion-trash-a"]')
-        .first()
-        .click()    
+        cy.containText('.card-text','This is sample comment')
+        
+        cy.clickElementByXpath(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`) 
     })
 })

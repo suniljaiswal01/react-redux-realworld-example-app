@@ -7,69 +7,34 @@ describe("Login Test",()=>{
     })
 
     it("Valid Login - Correct Credentials" ,() =>{
-        cy.xpath('//a[contains(@href,"login")]')
-          .click()
-          .url()
-          .should('contain','login')
-        cy.get('input[placeholder="Email"]')
-        .type("sunil10j@gmail.com")
-
-        cy.get('input[placeholder="Password"]')
-        .type('Test@2020')
-
-        cy.xpath('//button[text()="Sign in"]')
-        .click()
-
+      cy.fixture('BasicDetails').then(function (data) {
+        cy.visit(data.AppUrl)        
+        cy.login(data.email,data.password)
         cy.xpath('//body')
         .should("contain.text","New Post")
+      }) 
     })
 
-    it("Invalid Login- Incorrect username" ,() =>{
-        cy.xpath('//a[contains(@href,"login")]')
-          .click()
-          .url()
-          .should('contain','login')
-        cy.get('input[placeholder="Email"]')
-        .type("sunilj@gmail.com")
+    it("Invalid Login- Incorrect Email" ,() =>{
+      cy.fixture('BasicDetails').then(function (data) {
+        cy.visit(data.AppUrl)        
+        cy.login("Wrongemail@gmail.com",data.password)
+      }) 
 
-        cy.get('input[placeholder="Password"]')
-        .type('Test@2020')
-
-        cy.xpath('//button[text()="Sign in"]')
-        .click()
-
-        cy.get('.error-messages')
-        .should("contain.text","email or password is invalid")
+      cy.containText('.error-messages','email or password is invalid')
     })
 
     it("Invalid Login- Incorrect password" ,() =>{
-        cy.xpath('//a[contains(@href,"login")]')
-          .click()
-          .url()
-          .should('contain','login')
-        cy.get('input[placeholder="Email"]')
-        .type("sunil10j@gmail.com")
+      cy.fixture('BasicDetails').then(function (data) {
+        cy.visit(data.AppUrl)        
+        cy.login(data.email,"wrongpasswrd")
+      }) 
 
-        cy.get('input[placeholder="Password"]')
-        .type('Test1@2020')
-
-        cy.xpath('//button[text()="Sign in"]')
-        .click()
-
-        cy.get('.error-messages')
-        .should("contain.text","email or password is invalid")
+      cy.containText('.error-messages','email or password is invalid')
     })
 
     it("Navigation To Signup Page from login page" ,() =>{
-        cy.xpath('//a[contains(@href,"login")]')
-          .click()
-          .url()
-          .should('contain','login')
-
-        cy.xpath('//a[text()="Need an account?"]')
-          .click()
-          .url()
-          .should('contain','register')
-
+        cy.clickXpathAndcheckURL('//a[contains(@href,"login")]','login')
+        cy.clickXpathAndcheckURL('//a[text()="Need an account?"]','register')
     })
 })

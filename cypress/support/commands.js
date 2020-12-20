@@ -23,3 +23,57 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', (username, password) => {
+    cy.get('input[placeholder="Email"]').type(username)
+    cy.get('input[placeholder="Password"]').type(password)
+    cy.xpath('//button[text()="Sign in"]').click().wait(2000)
+  })
+
+Cypress.Commands.add('enterTextByXpath', (element, text) => {
+    cy.xpath(element)
+    .clear()
+    .type(text)
+    .should('contain.value',text)
+  })
+
+Cypress.Commands.add('enterTextByCss', (element, text) => {
+    cy.get(element)
+    .clear()
+    .type(text)
+    .should('contain.value',text)
+  })
+
+Cypress.Commands.add('clickElementByXpath', (element) => {
+    cy.xpath(element)
+    .first()
+    .click()
+  })
+
+Cypress.Commands.add('clickElementByCss', (element) => {
+    cy.get(element)
+    .first()
+    .click()
+  })
+
+
+Cypress.Commands.add('clickXpathAndcheckURL', (element,expectedURL) => {
+    cy.xpath(element)
+    .first()
+    .click()
+    .url()
+    .should('contain',expectedURL)
+  })
+
+  Cypress.Commands.add('clickCssAndcheckURL', (element,expectedURL) => {
+    cy.get(element)
+    .first()
+    .click()
+    .url()
+    .should('contain',expectedURL)
+  })
+
+  Cypress.Commands.add('containText', (element,text) => {
+    cy.get(element)
+    .should('contain.text',text)
+  })

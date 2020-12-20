@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "casual-browserify": "^1.5.19-2",
     "cross-env": "^5.1.4",
     "cypress": "^6.1.0",
     "cypress-xpath": "^1.6.1",
@@ -11,6 +12,7 @@
   "dependencies": {
     "history": "^4.6.3",
     "marked": "^0.3.6",
+    "nohup": "^0.1.0",
     "prop-types": "^15.5.10",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",

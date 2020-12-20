@@ -7,20 +7,16 @@ describe("Global Feed- Before Login",() =>{
     })
 
     it("Navigating to first article",() =>{
-        cy.get('.preview-link').first().click()
+        cy.clickElementByCss('.preview-link')
     })
 
     
     it("Navigating to first user",() =>{
-        cy.get('.author').first().click()
+        cy.clickElementByCss('.author')
     })
 
     it("Adding Article To Favorite",() =>{
-        cy.get('.ion-heart')
-        .first()
-        .click()
-        .url()
-        .should('contain','register')
+        cy.clickCssAndcheckURL('.ion-heart',"register")
     })
 })
 
@@ -31,16 +27,12 @@ describe("User Flow",() =>{
     })
 
     it("Follow user",() =>{
-        cy.get('.author').first().click()
-        cy.get('.ion-plus-round')
-        .click()
-        .url()
-        .should('contain','register')
+        cy.clickElementByCss('.author')
+        cy.clickCssAndcheckURL('.ion-plus-round',"register")
     })
 
     it("Navigate To Favorite Article",() =>{
-        cy.get('.author').first().click()
-        cy.xpath('//a[contains(text(),"Favorited Articles")]')
-        .click();  
+        cy.clickElementByCss('.author')
+        cy.clickElementByXpath('//a[contains(text(),"Favorited Articles")]')
     })
 })
