@@ -1,68 +1,79 @@
 /// <reference types = "cypress"/>
 
-describe("Commenting on self blog",() =>{
+describe("Commenting on self blog", () => {
 
-    beforeEach(() =>{
+    beforeEach(() => {
         cy.fixture('BasicDetails').then(function (data) {
-            cy.visit(data.AppUrl)        
-            cy.login(data.email,data.password)
-            cy.xpath('//body')
-            .should("contain.text","New Post")
-          }) 
-    })
-
-    it("Commenting On Article",() =>{
-        cy.clickElementByXpath(`//a[img[@class="user-pic"]]`)
-        cy.wait(3000)
-        .reload()
-
-        cy.get('.preview-link').then(($link)=>{
-            cy.clickElementByCss(`.preview-link`)
-            cy.enterTextByXpath(`//div[@class="card-block"]/textarea`,"This is sample comment")
-            cy.clickElementByXpath(`//button[text()="Post Comment"]`)
-            cy.containText('.card-text','This is sample comment')
+            cy.visit(data.AppUrl)
+            cy.login(data.email, data.password)
+            cy.containText('//body', 'New Post')
         })
-
-        
-        
-
     })
 
-    it("Delete Comment from Article",() =>{
-        cy.clickElementByXpath(`//a[img[@class="user-pic"]]`)
-        cy.wait(3000)
-        .reload()
+    it("Commenting On Article", () => {
 
-        cy.get('.preview-link').then(($link)=>{
-            cy.clickElementByCss(`.preview-link`)
-            cy.clickElementByXpath(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`)
+        cy.intercept('articles').as('articleList')
+
+        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.wait(3000)
+            .reload()
+
+        cy.wait('@articleList').then((interception) => {
+            var articleCount = interception.response.body.articlesCount
+            if (articleCount > 0) {
+                cy.clickElement(`.preview-link`)
+                cy.enterText(`//div[@class="card-block"]/textarea`, "This is sample comment")
+                cy.clickElement(`//button[text()="Post Comment"]`)
+                cy.containText('.card-text', 'This is sample comment')
+            } else {
+                cy.log("No Article Present")
+            }
+
+        })
+    })
+
+    it("Delete Comment from Article", () => {
+
+        cy.intercept('articles').as('articleList')
+
+        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.wait(3000)
+            .reload()
+
+        cy.wait('@articleList').then((interception) => {
+            var articleCount = interception.response.body.articlesCount
+            if (articleCount > 0) {
+                cy.clickElement(`.preview-link`)
+                cy.clickElement(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`)
+            } else {
+                cy.log("No Article Present")
+            }
         })
     })
 })
 
-describe("Commenting and deleting on others blog",() =>{
+describe("Commenting and deleting on others blog", () => {
 
-    beforeEach(() =>{
+    beforeEach(() => {
         cy.fixture('BasicDetails').then(function (data) {
-            cy.visit(data.AppUrl)        
-            cy.login(data.email,data.password)
-            cy.xpath('//body')
-            .should("contain.text","New Post")
-          })     
+            cy.visit(data.AppUrl)
+            cy.login(data.email, data.password)
+            cy.containText('//body', 'New Post')
+        })
     })
 
-    it("Commenting On Article",() =>{
-        cy.clickElementByXpath(`//a[text()="Global Feed"]`)
+    it("Commenting On Article", () => {
+        cy.clickElement(`//a[text()="Global Feed"]`)
 
         let username = "suniljaiswal"
-        let article = "//div[div[a[@class='author' and not(text()='"+username+"')]]]/following-sibling::a"
-        cy.clickElementByXpath(article)
+        let article = "//div[div[a[@class='author' and not(text()='" + username + "')]]]/following-sibling::a"
+        cy.clickElement(article)
 
-        cy.enterTextByXpath(`//div[@class="card-block"]/textarea`,"This is sample comment")
-        cy.clickElementByXpath(`//button[text()="Post Comment"]`)
+        cy.enterText(`//div[@class="card-block"]/textarea`, "This is sample comment")
+        cy.clickElement(`//button[text()="Post Comment"]`)
 
-        cy.containText('.card-text','This is sample comment')
-        
-        cy.clickElementByXpath(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`) 
+        cy.containText('.card-text', 'This is sample comment')
+
+        cy.clickElement(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`)
     })
 })

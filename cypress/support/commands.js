@@ -27,53 +27,38 @@
 Cypress.Commands.add('login', (username, password) => {
     cy.get('input[placeholder="Email"]').type(username)
     cy.get('input[placeholder="Password"]').type(password)
-    cy.xpath('//button[text()="Sign in"]').click().wait(2000)
+    cy.xpath('//button[text()="Sign in"]').click()
   })
 
-Cypress.Commands.add('enterTextByXpath', (element, text) => {
-    cy.xpath(element)
-    .clear()
-    .type(text)
-    .should('contain.value',text)
+Cypress.Commands.add('enterText', (element, text) => {
+  
+  if(element.startsWith('/'))
+    cy.xpath(element).clear().type(text).should('contain.value',text)
+  else
+    cy.get(element).clear().type(text).should('contain.value',text)
   })
 
-Cypress.Commands.add('enterTextByCss', (element, text) => {
-    cy.get(element)
-    .clear()
-    .type(text)
-    .should('contain.value',text)
+Cypress.Commands.add('clickElement', (element) => {
+
+    if(element.startsWith('/'))
+      cy.xpath(element).first().click()
+    else
+      cy.get(element).first().click()
   })
 
-Cypress.Commands.add('clickElementByXpath', (element) => {
-    cy.xpath(element)
-    .first()
-    .click()
-  })
+Cypress.Commands.add('clickAndcheckURL', (element,expectedURL) => {
 
-Cypress.Commands.add('clickElementByCss', (element) => {
-    cy.get(element)
-    .first()
-    .click()
-  })
-
-
-Cypress.Commands.add('clickXpathAndcheckURL', (element,expectedURL) => {
-    cy.xpath(element)
-    .first()
-    .click()
-    .url()
-    .should('contain',expectedURL)
-  })
-
-  Cypress.Commands.add('clickCssAndcheckURL', (element,expectedURL) => {
-    cy.get(element)
-    .first()
-    .click()
-    .url()
-    .should('contain',expectedURL)
+  if(element.startsWith('/'))
+      cy.xpath(element).first().click().url().should('contain',expectedURL)
+    else
+      cy.get(element).first().click().url().should('contain',expectedURL)
+    
   })
 
   Cypress.Commands.add('containText', (element,text) => {
-    cy.get(element)
-    .should('contain.text',text)
+
+    if(element.startsWith('/'))
+      cy.xpath(element).should('contain.text',text)
+    else
+      cy.get(element).should('contain.text',text)
   })

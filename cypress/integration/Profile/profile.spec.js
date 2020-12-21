@@ -6,30 +6,39 @@ describe("Updating User Detail",() =>{
         cy.fixture('BasicDetails').then(function (data) {
             cy.visit(data.AppUrl)        
             cy.login(data.email,data.password)
-            cy.xpath('//body')
-            .should("contain.text","New Post")
+            cy.containText('//body','New Post')
           }) 
     })
 
-    it("Update Username",()=>{
-        cy.clickXpathAndcheckURL('//a[contains(text(),"Settings")]','settings')
+    it("Check My Articles Page",()=>{
 
-        cy.enterTextByCss('input[placeholder="Username"]','tempUserName1234')
+        cy.intercept('articles').as('articleList')
+        cy.clickElement(`//a[img[@class="user-pic"]]`)
 
-        cy.clickElementByXpath('//button[text()="Update Settings"]')
-        .wait(3000)
-
-        cy.clickXpathAndcheckURL('//a[img[@class="user-pic"]]','tempUserName1234')
+        cy.wait('@articleList').then((interception)=>{
+            var articleCount = interception.response.body.articlesCount
+            if(articleCount>0){
+                cy.clickElement(`.preview-link`)
+            }else{
+                cy.log("No Article Present")
+            }
+        })
     })
 
-    it("Revert Username",()=>{
-        cy.clickXpathAndcheckURL('//a[contains(text(),"Settings")]','settings')
-        
-        cy.enterTextByCss('input[placeholder="Username"]','suniljaiswal')
+    it("Check Favorited Articles Page",()=>{
 
-        cy.clickElementByXpath('//button[text()="Update Settings"]')
-        .wait(3000)
+        cy.clickElement(`//a[img[@class="user-pic"]]`)
 
-        cy.clickXpathAndcheckURL('//a[img[@class="user-pic"]]','suniljaiswal')
+        cy.intercept('favorited').as('favoritedList')
+        cy.clickElement(`//a[text()="Favorited Articles"]`)
+
+        cy.wait('@favoritedList').then((interception)=>{
+            var articleCount = interception.response.body.articlesCount
+            if(articleCount>0){
+                cy.clickElement(`.preview-link`)
+            }else{
+                cy.log("No Favorited Article Present")
+            }
+        })
     })
 })

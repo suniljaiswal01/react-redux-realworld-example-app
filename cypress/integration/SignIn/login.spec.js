@@ -10,8 +10,7 @@ describe("Login Test",()=>{
       cy.fixture('BasicDetails').then(function (data) {
         cy.visit(data.AppUrl)        
         cy.login(data.email,data.password)
-        cy.xpath('//body')
-        .should("contain.text","New Post")
+        cy.containText('//body','New Post')
       }) 
     })
 
@@ -34,7 +33,7 @@ describe("Login Test",()=>{
     })
 
     it("Navigation To Signup Page from login page" ,() =>{
-        cy.clickXpathAndcheckURL('//a[contains(@href,"login")]','login')
-        cy.clickXpathAndcheckURL('//a[text()="Need an account?"]','register')
+        cy.clickAndcheckURL('//a[contains(@href,"login")]','login')
+        cy.clickAndcheckURL('//a[text()="Need an account?"]','register')
     })
 })

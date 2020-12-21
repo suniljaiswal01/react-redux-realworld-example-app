@@ -8,15 +8,15 @@ describe("Home Page Test Case", () => {
 
   it("Check navigation- Login,Signup,Home", () => {
 
-    cy.clickXpathAndcheckURL('//a[@class="nav-link" and text()="Sign in"]', 'login')
+    cy.clickAndcheckURL('//a[@class="nav-link" and text()="Sign in"]', 'login')
 
-    cy.clickElementByXpath(`//a[@class="nav-link" and text()="Home"]`)
+    cy.clickElement(`//a[@class="nav-link" and text()="Home"]`)
 
     cy.containText('.banner','A place to share your knowledge.')
   
-    cy.clickXpathAndcheckURL('//a[@class="nav-link" and text()="Sign up"]', 'register')
+    cy.clickAndcheckURL('//a[@class="nav-link" and text()="Sign up"]', 'register')
 
-    cy.clickElementByCss(`.navbar-brand`)
+    cy.clickElement(`.navbar-brand`)
 
     cy.containText('.banner','A place to share your knowledge.')
   })
