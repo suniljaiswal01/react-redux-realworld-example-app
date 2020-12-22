@@ -13,6 +13,9 @@ describe("Login Test", () => {
     cy.visit("http://localhost:4100/")
   })
 
+  /**
+   * This testcase verify whether user is able to login in the application with valid credentials
+   */
   it("Valid Login - Correct Credentials", () => {
     cy.fixture('BasicDetails').then(function (data) {
       cy.visit(data.AppUrl)
@@ -21,6 +24,9 @@ describe("Login Test", () => {
     })
   })
 
+  /**
+   * This testcase is used to verify that apporiate error message is displayed when incorrect email id is passed
+   */
   it("Invalid Login- Incorrect Email", () => {
     cy.fixture('BasicDetails').then(function (data) {
       cy.visit(data.AppUrl)
@@ -32,6 +38,9 @@ describe("Login Test", () => {
     cy.containText(locator.loginpage.errorMsgContainer, 'email or password is invalid')
   })
 
+  /**
+   * This testcase is used to verify that apporiate error message is displayed when incorrect password is entered
+   */
   it("Invalid Login- Incorrect password", () => {
     cy.fixture('BasicDetails').then(function (data) {
       cy.visit(data.AppUrl)
@@ -43,6 +52,9 @@ describe("Login Test", () => {
     cy.containText(locator.loginpage.errorMsgContainer, 'email or password is invalid')
   })
 
+  /**
+   * This testcase is used to verify that all the link present in the login page is working fine
+   */
   it("Navigation To Signup Page from login page", () => {
     cy.clickAndcheckURL(locator.loginpage.loginPageLink, 'login')
     cy.clickAndcheckURL(locator.loginpage.needAnAccountLink, 'register')

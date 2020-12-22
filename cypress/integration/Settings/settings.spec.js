@@ -16,6 +16,9 @@ describe("Updating User Detail",() =>{
           }) 
     })
 
+    /**
+     * This testcase is used to update the username of the logged in user
+     */
     it("Update Username",()=>{
         cy.clickAndcheckURL(locator.settingPage.settingBtn,'settings')
 
@@ -27,6 +30,9 @@ describe("Updating User Detail",() =>{
         cy.clickAndcheckURL(locator.homePage.userProfileBtn,'tempUserName1234')
     })
 
+    /**
+     * This testcase is used to revert the updated username in the above testcase for the logged in user
+     */
     it("Revert Username",()=>{
         cy.clickAndcheckURL(locator.settingPage.settingBtn,'settings')
         

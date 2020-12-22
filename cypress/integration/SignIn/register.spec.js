@@ -16,6 +16,9 @@ describe("SignUp",()=>{
       })
     })
 
+    /**
+     * This testcase is used to verify whether new user is able to application
+     */
     it('Register with new user',()=>{
         
         cy.visit('http://localhost:4100')
@@ -28,6 +31,9 @@ describe("SignUp",()=>{
         cy.xpath(locator.homePage.userProfileBtn).invoke('text').should('eq',newuser.username)
     })
 
+    /**
+     * This testcase is used to verify that apporiate error message is displayed when user tries to register with the existing uusername
+     */
     it('Register with existing user',()=>{
         
         cy.visit('http://localhost:4100')
@@ -41,6 +47,9 @@ describe("SignUp",()=>{
         cy.containText(locator.registerPage.errorMsgContainer,'username has already been taken')
     })
 
+    /**
+     * This tescase is used to verify that appropriate error message is dispalyed when user tries to resigter without entering the username
+     */
     it('Register with blank username',()=>{
         
         cy.visit('http://localhost:4100')

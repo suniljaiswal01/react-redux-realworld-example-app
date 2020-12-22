@@ -12,6 +12,9 @@ describe("Home Page Test Case", () => {
     cy.visit("http://localhost:4100/")
   })
 
+  /**
+   * This testcase is used to verify whether the links present in the home page are working or not
+   */
   it("Check navigation- Login,Signup,Home", () => {
 
     cy.clickAndcheckURL(locator.homePage.signBtn, 'login')

@@ -17,6 +17,10 @@ describe("Updating User Detail",() =>{
           }) 
     })
 
+    /**
+     * This testcase is use to verify whether the My Article page of the logged in user is working.
+     * This is log "No article present" if there is no article for the particular user
+     */
     it("Check My Articles Page",()=>{
 
         cy.intercept('articles').as('articleList')
@@ -32,6 +36,10 @@ describe("Updating User Detail",() =>{
         })
     })
 
+    /**
+     * This testcase is use to verify whether the Favorited Article page of the logged in user is working.
+     * This is log "No article present" if there is no article for the particular user
+     */
     it("Check Favorited Articles Page",()=>{
 
         cy.clickElement(locator.homePage.userProfileBtn)

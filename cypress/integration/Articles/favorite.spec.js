@@ -18,6 +18,10 @@ describe("Adding Article as favorite",()=>{
           })     
     })
 
+    /**
+     * This testcase marks the first article created by others users as favorite.
+     * It is ignore the article which is already marked as favorite by the logged in user
+     */
     it("Marking Article as favorite",() =>{
         cy.intercept('articles').as('articleList')
         cy.clickElement(locator.homePage.globalFeedBtn)
@@ -40,19 +44,28 @@ describe("Adding Article as favorite",()=>{
         })
     })
 
+    /**
+     * This testcase check if the article marked as favorite in the above 
+     * testcase is displayed in logged in users Favorited Article page
+     */
     it("Checking if favorite article is displayed in My Favorited page",() =>{
         cy.intercept('articles').as('articleList')
         cy.clickElement(locator.homePage.userProfileBtn)
         cy.wait('@articleList')
 
+        cy.intercept('favorited').as('favoritedList')
         cy.clickElement(locator.userPage.favoriteArtilePage)
+        cy.wait('@favoritedList')
         
         cy.reload().wait(3000)
         cy.containText(locator.userPage.articleTitleLink,titleName)
         
     })
 
-    it("Marking Article and dis-favorite",() =>{
+    /**
+     * This testcase marks artile as dis-favorite which was marked as favorite in above testcase
+     */
+    it("Marking Article as dis-favorite",() =>{
         cy.intercept('articles').as('articleList')
         cy.clickElement(locator.homePage.userProfileBtn)
         cy.wait('@articleList')

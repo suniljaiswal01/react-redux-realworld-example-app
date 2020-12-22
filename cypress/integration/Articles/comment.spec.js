@@ -17,6 +17,10 @@ describe("Commenting on self blog", () => {
         })
     })
 
+    /**
+     * This testcase is used to add comment on article created by the logged in user.
+     * It is log "No Article Present" if there is no artile in listing page
+     */
     it("Commenting On Article", () => {
 
         cy.intercept('articles').as('articleList')
@@ -37,6 +41,10 @@ describe("Commenting on self blog", () => {
         })
     })
 
+    /**
+     * This testcase is used to delete comment on article created by the logged in user.
+     * It is log "No Article Present" if there is no article in listing page
+     */
     it("Delete Comment from Article", () => {
 
         cy.intercept('articles').as('articleList')
@@ -74,6 +82,9 @@ describe("Commenting and deleting on others blog", () => {
         })
     })
 
+    /**
+     * This testcase is used to add comment on article created by other users.
+     */
     it("Commenting On Article", () => {
         cy.clickElement(locator.homePage.globalFeedBtn)
 

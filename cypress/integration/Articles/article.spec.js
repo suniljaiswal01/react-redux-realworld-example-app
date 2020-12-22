@@ -19,7 +19,9 @@ describe("New Article", () => {
         })
     })
 
-
+    /**
+     * This testcase is used to create new article and checks whether the article is been created or not
+     */
     it("Creating New Article", () => {
         cy.clickElement(locator.articlePage.newPostBtn)
         let Articletitle = casual.title
@@ -32,6 +34,9 @@ describe("New Article", () => {
         cy.containText(locator.articlePage.articleBanner, Articletitle)
     })
 
+    /**
+     * This testcase edit the article title from my article listing and verify whether the title is been updated or not
+     */
     it("Editing an Article", () => {
 
         cy.clickElement(locator.homePage.userProfileBtn)
@@ -53,6 +58,9 @@ describe("New Article", () => {
         cy.containText(locator.articlePage.articleBanner, Articletitle)
     })
 
+    /**
+     * This testcase is used to delete article from my article page
+     */
     it("Deleting an Article", () => {
         cy.clickElement(locator.homePage.userProfileBtn)
         cy.reload()
@@ -60,6 +68,9 @@ describe("New Article", () => {
         cy.clickAndcheckURL(locator.articlePage.deleteArticleBtn, 'http://localhost:4100/')
     })
 
+    /**
+     * This testcase intercept the articles api from the networks and return 0 article in response and check if UI is showing no articles
+     */
     it("verify Ui when no article is present", () => {
         
         cy.intercept("GET","/api/articles?limit=10&offset=0",{
