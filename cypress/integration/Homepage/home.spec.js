@@ -2,22 +2,28 @@
 
 describe("Home Page Test Case", () => {
 
+  let locator;
+  before(()=>{
+    cy.fixture('Locators').then(data=>{
+      locator = data
+    })
+  })
   beforeEach(() => {
     cy.visit("http://localhost:4100/")
   })
 
   it("Check navigation- Login,Signup,Home", () => {
 
-    cy.clickAndcheckURL('//a[@class="nav-link" and text()="Sign in"]', 'login')
+    cy.clickAndcheckURL(locator.homePage.signBtn, 'login')
 
-    cy.clickElement(`//a[@class="nav-link" and text()="Home"]`)
+    cy.clickElement(locator.homePage.homelink)
 
-    cy.containText('.banner','A place to share your knowledge.')
+    cy.containText(locator.homePage.banner,'A place to share your knowledge.')
   
-    cy.clickAndcheckURL('//a[@class="nav-link" and text()="Sign up"]', 'register')
+    cy.clickAndcheckURL(locator.homePage.singUpbtn, 'register')
 
-    cy.clickElement(`.navbar-brand`)
+    cy.clickElement(locator.homePage.homeIcon)
 
-    cy.containText('.banner','A place to share your knowledge.')
+    cy.containText(locator.homePage.banner,'A place to share your knowledge.')
   })
 })

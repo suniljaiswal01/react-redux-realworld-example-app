@@ -3,6 +3,14 @@
 const casual = require('casual-browserify')
 
 describe("New Article", () => {
+
+    let locator;
+    before(()=>{
+      cy.fixture('Locators').then(data=>{
+        locator = data
+      })
+    })
+
     beforeEach(() => {
         cy.fixture('BasicDetails').then(function (data) {
             cy.visit(data.AppUrl)
@@ -13,43 +21,43 @@ describe("New Article", () => {
 
 
     it("Creating New Article", () => {
-        cy.clickElement(`//a[contains(text(),"New Post")]`)
+        cy.clickElement(locator.articlePage.newPostBtn)
         let Articletitle = casual.title
-        cy.enterText('[placeholder="Article Title"]', Articletitle)
-        cy.enterText(`[placeholder="What's this article about?"]`, casual.short_description)
-        cy.enterText(`[placeholder="Write your article (in markdown)"]`, casual.short_description)
-        cy.enterText(`[placeholder="Enter tags"`, casual.word)
+        cy.enterText(locator.articlePage.articleTitle, Articletitle)
+        cy.enterText(locator.articlePage.articleDesc, casual.short_description)
+        cy.enterText(locator.articlePage.articleMarkdown, casual.short_description)
+        cy.enterText(locator.articlePage.articleTag, casual.word)
 
-        cy.clickElement(`//button[text()="Publish Article"]`)
-        cy.containText('.banner', Articletitle)
+        cy.clickElement(locator.articlePage.publishBtn)
+        cy.containText(locator.articlePage.articleBanner, Articletitle)
     })
 
     it("Editing an Article", () => {
 
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
 
-        cy.containText('.user-info', 'Profile Settings')
+        cy.containText(locator.homePage.userInfoContainer, 'Profile Settings')
 
         cy.reload()
 
-        cy.clickElement(`.preview-link`)
+        cy.clickElement(locator.articlePage.articleLink)
 
-        cy.clickAndcheckURL('//a[contains(text(),"Edit Article")]', 'editor')
+        cy.clickAndcheckURL(locator.articlePage.editArticlebtn, 'editor')
             .wait(3000)
 
         let Articletitle = casual.title
-        cy.enterText(`[placeholder="Article Title"]`, Articletitle)
+        cy.enterText(locator.articlePage.articleTitle, Articletitle)
 
-        cy.clickElement(`//button[text()="Publish Article"]`)
+        cy.clickElement(locator.articlePage.publishBtn)
 
-        cy.containText('.banner', Articletitle)
+        cy.containText(locator.articlePage.articleBanner, Articletitle)
     })
 
     it("Deleting an Article", () => {
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
         cy.reload()
-        cy.clickElement(`.preview-link`)
-        cy.clickAndcheckURL('//button[contains(text(),"Delete Article")]', 'http://localhost:4100/')
+        cy.clickElement(locator.articlePage.articleLink)
+        cy.clickAndcheckURL(locator.articlePage.deleteArticleBtn, 'http://localhost:4100/')
     })
 
     it("verify Ui when no article is present", () => {
@@ -59,10 +67,10 @@ describe("New Article", () => {
             body: { "articles": [], "articlesCount": 0 }
         }).as('article')
 
-        cy.clickElement(`//a[text()="Global Feed"]`)
+        cy.clickElement(locator.homePage.globalFeedBtn)
         cy.wait('@article')
 
-        cy.containText('.article-preview','No articles are here')
+        cy.containText(locator.articlePage.articleListing,'No articles are here')
     })
 
 })

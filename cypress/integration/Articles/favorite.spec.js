@@ -2,6 +2,13 @@
 
 describe("Adding Article as favorite",()=>{
     let titleName;
+    let locator;
+
+    before(()=>{
+      cy.fixture('Locators').then(data=>{
+        locator = data
+      })
+    })
 
     beforeEach(() =>{
         cy.fixture('BasicDetails').then(function (data) {
@@ -13,7 +20,7 @@ describe("Adding Article as favorite",()=>{
 
     it("Marking Article as favorite",() =>{
         cy.intercept('articles').as('articleList')
-        cy.clickElement(`//a[text()="Global Feed"]`)
+        cy.clickElement(locator.homePage.globalFeedBtn)
         cy.wait('@articleList')
             
         let username = "suniljaiswal"
@@ -35,33 +42,31 @@ describe("Adding Article as favorite",()=>{
 
     it("Checking if favorite article is displayed in My Favorited page",() =>{
         cy.intercept('articles').as('articleList')
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
         cy.wait('@articleList')
 
-        cy.intercept('favorited').as('favoritedList')
-        cy.clickElement(`//a[text()="Favorited Articles"]`)
-        cy.wait('@favoritedList')
-
-        cy.xpath("//a[@class='preview-link']/h1").should('contain.text',titleName)
+        cy.clickElement(locator.userPage.favoriteArtilePage)
+        
+        cy.reload().wait(3000)
+        cy.containText(locator.userPage.articleTitleLink,titleName)
         
     })
 
     it("Marking Article and dis-favorite",() =>{
         cy.intercept('articles').as('articleList')
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
         cy.wait('@articleList')
         
         cy.intercept('favorited').as('favoritedList')
-        cy.clickElement(`//a[text()="Favorited Articles"]`)
+        cy.clickElement(locator.userPage.favoriteArtilePage)
         cy.wait('@favoritedList')
 
-        cy.xpath("//a[@class='preview-link']/h1").should('contain.text',titleName).then(()=>{
+        cy.xpath(locator.userPage.articleTitleLink).should('contain.text',titleName).then(()=>{
             let artileLink = '//div[a[h1[text()="'+titleName+'"]]]//i'
             cy.clickElement(artileLink)
         })
 
         cy.reload()
-        cy.xpath("//a[@class='preview-link']/h1").should('not.contain.text',titleName)
-        
+        cy.xpath(locator.userPage.articleTitleLink).should('not.contain.text',titleName)
     })
 })

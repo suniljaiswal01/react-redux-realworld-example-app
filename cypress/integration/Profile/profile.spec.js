@@ -1,6 +1,13 @@
 /// <reference types = "cypress" />
 
 describe("Updating User Detail",() =>{
+    let locator;
+
+    before(()=>{
+      cy.fixture('Locators').then(data=>{
+        locator = data
+      })
+    })
 
     beforeEach(() =>{
         cy.fixture('BasicDetails').then(function (data) {
@@ -13,12 +20,12 @@ describe("Updating User Detail",() =>{
     it("Check My Articles Page",()=>{
 
         cy.intercept('articles').as('articleList')
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
 
         cy.wait('@articleList').then((interception)=>{
             var articleCount = interception.response.body.articlesCount
             if(articleCount>0){
-                cy.clickElement(`.preview-link`)
+                cy.clickElement(locator.articlePage.articleLink)
             }else{
                 cy.log("No Article Present")
             }
@@ -27,15 +34,15 @@ describe("Updating User Detail",() =>{
 
     it("Check Favorited Articles Page",()=>{
 
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
 
         cy.intercept('favorited').as('favoritedList')
-        cy.clickElement(`//a[text()="Favorited Articles"]`)
+        cy.clickElement(locator.userPage.favoriteArtilePage)
 
         cy.wait('@favoritedList').then((interception)=>{
             var articleCount = interception.response.body.articlesCount
             if(articleCount>0){
-                cy.clickElement(`.preview-link`)
+                cy.clickElement(locator.articlePage.articleLink)
             }else{
                 cy.log("No Favorited Article Present")
             }

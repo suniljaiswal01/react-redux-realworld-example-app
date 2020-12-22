@@ -2,6 +2,13 @@
 
 describe("Commenting on self blog", () => {
 
+    let locator;
+    before(()=>{
+      cy.fixture('Locators').then(data=>{
+        locator = data
+      })
+    })
+
     beforeEach(() => {
         cy.fixture('BasicDetails').then(function (data) {
             cy.visit(data.AppUrl)
@@ -13,18 +20,16 @@ describe("Commenting on self blog", () => {
     it("Commenting On Article", () => {
 
         cy.intercept('articles').as('articleList')
-
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
-        cy.wait(3000)
-            .reload()
+        cy.clickElement(locator.homePage.userProfileBtn)
+        cy.reload().wait(3000)
 
         cy.wait('@articleList').then((interception) => {
             var articleCount = interception.response.body.articlesCount
-            if (articleCount > 0) {
-                cy.clickElement(`.preview-link`)
-                cy.enterText(`//div[@class="card-block"]/textarea`, "This is sample comment")
-                cy.clickElement(`//button[text()="Post Comment"]`)
-                cy.containText('.card-text', 'This is sample comment')
+            if (articleCount > 0) { 
+                cy.clickElement(locator.articlePage.articleLink)
+                cy.enterText(locator.articlePage.commentInput, "This is sample comment")
+                cy.clickElement(locator.articlePage.postCommentBtn)
+                cy.containText(locator.articlePage.commentContainer, 'This is sample comment')
             } else {
                 cy.log("No Article Present")
             }
@@ -36,15 +41,15 @@ describe("Commenting on self blog", () => {
 
         cy.intercept('articles').as('articleList')
 
-        cy.clickElement(`//a[img[@class="user-pic"]]`)
+        cy.clickElement(locator.homePage.userProfileBtn)
         cy.wait(3000)
             .reload()
 
         cy.wait('@articleList').then((interception) => {
             var articleCount = interception.response.body.articlesCount
             if (articleCount > 0) {
-                cy.clickElement(`.preview-link`)
-                cy.clickElement(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`)
+                cy.clickElement(locator.articlePage.articleLink)
+                cy.clickElement(locator.articlePage.deleteCommentBtn)
             } else {
                 cy.log("No Article Present")
             }
@@ -54,6 +59,13 @@ describe("Commenting on self blog", () => {
 
 describe("Commenting and deleting on others blog", () => {
 
+    let locator;
+    before(()=>{
+      cy.fixture('Locators').then(data=>{
+        locator = data
+      })
+    })
+    
     beforeEach(() => {
         cy.fixture('BasicDetails').then(function (data) {
             cy.visit(data.AppUrl)
@@ -63,17 +75,17 @@ describe("Commenting and deleting on others blog", () => {
     })
 
     it("Commenting On Article", () => {
-        cy.clickElement(`//a[text()="Global Feed"]`)
+        cy.clickElement(locator.homePage.globalFeedBtn)
 
         let username = "suniljaiswal"
         let article = "//div[div[a[@class='author' and not(text()='" + username + "')]]]/following-sibling::a"
         cy.clickElement(article)
+        
+        cy.enterText(locator.articlePage.commentInput, "This is sample comment")
+        cy.clickElement(locator.articlePage.postCommentBtn)
 
-        cy.enterText(`//div[@class="card-block"]/textarea`, "This is sample comment")
-        cy.clickElement(`//button[text()="Post Comment"]`)
-
-        cy.containText('.card-text', 'This is sample comment')
-
-        cy.clickElement(`//div[@class="card-footer"]//i[@class="ion-trash-a"]`)
+        cy.containText(locator.articlePage.commentContainer, 'This is sample comment')
+        
+        cy.clickElement(locator.articlePage.deleteCommentBtn)
     })
 })

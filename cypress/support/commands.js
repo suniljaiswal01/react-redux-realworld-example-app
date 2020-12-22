@@ -27,7 +27,9 @@
 Cypress.Commands.add('login', (username, password) => {
     cy.get('input[placeholder="Email"]').type(username)
     cy.get('input[placeholder="Password"]').type(password)
+    cy.intercept('feed').as('login')
     cy.xpath('//button[text()="Sign in"]').click()
+    cy.wait('@login')
   })
 
 Cypress.Commands.add('enterText', (element, text) => {

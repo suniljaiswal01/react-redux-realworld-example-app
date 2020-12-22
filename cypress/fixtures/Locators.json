@@ -1,0 +1,59 @@
+{
+    "homePage":{
+        "signBtn":"//a[@class='nav-link' and text()='Sign in']",
+        "homelink": "//a[@class='nav-link' and text()='Home']",
+        "banner":".banner",
+        "singUpbtn":"//a[@class='nav-link' and text()='Sign up']",
+        "homeIcon": ".navbar-brand",
+        "userProfileBtn":"//a[img[@class='user-pic']]",
+        "userInfoContainer":".user-info",
+        "globalFeedBtn":"//a[text()='Global Feed']",
+        "paginationLink":".page-link"
+    },
+    "articlePage":{
+        "newPostBtn":"//a[contains(text(),'New Post')]",
+        "articleTitle":"[placeholder='Article Title']",
+        "articleDesc":"[placeholder='What\\'s this article about?']",
+        "articleMarkdown":"[placeholder='Write your article (in markdown)']",
+        "articleTag":"[placeholder='Enter tags']",
+        "publishBtn":"//button[text()='Publish Article']",
+        "articleBanner":".banner",
+        "articleLink":".preview-link",
+        "articleAuthorlink":".author",
+        "articleFollowBtn":".ion-plus-round",
+        "favoriteBtn":".ion-heart",
+        "editArticlebtn":"//a[contains(text(),'Edit Article')]",
+        "deleteArticleBtn":"//button[contains(text(),'Delete Article')]",
+        "articleListing":".article-preview",
+        "commentInput":"//div[@class='card-block']/textarea",
+        "postCommentBtn":"//button[text()='Post Comment']",
+        "commentContainer":".card-text",
+        "deleteCommentBtn":"//div[@class='card-footer']//i[@class='ion-trash-a']"
+    },
+    "userPage":{
+        "favoriteArtilePage":"//a[text()='Favorited Articles']",
+        "articleTitleLink":"//a[@class='preview-link']/h1"
+    },
+    "settingPage":{
+        "settingBtn":"//a[contains(text(),'Settings')]",
+        "userNameInput":"input[placeholder='Username']",
+        "updateSettingBtn":"//button[text()='Update Settings']"  
+    },
+    "loginpage":{
+        "emailInput":"input[placeholder='Email']",
+        "passwordInput":"input[placeholder='Password']",
+        "signInBtn":"//button[text()='Sign in']",
+        "errorMsgContainer":".error-messages",
+        "needAnAccountLink":"//a[text()='Need an account?']",
+        "loginPageLink":"//a[contains(@href,'login')]"
+    },
+    "registerPage":{
+        "signUppageLink":"//a[text()='Sign up']",
+        "userNameInput":"input[placeholder='Username']",
+        "emailInput":"input[placeholder='Email']",
+        "passwordInput":"input[placeholder='Password']",
+        "submitBtn":"button[type='submit']",
+        "errorMsgContainer":".error-messages"
+    }
+    
+}
