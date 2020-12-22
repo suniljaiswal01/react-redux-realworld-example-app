@@ -25,8 +25,7 @@ describe("Commenting on self blog", () => {
 
         cy.intercept('articles').as('articleList')
         cy.clickElement(locator.homePage.userProfileBtn)
-        cy.reload().wait(3000)
-
+        
         cy.wait('@articleList').then((interception) => {
             var articleCount = interception.response.body.articlesCount
             if (articleCount > 0) { 

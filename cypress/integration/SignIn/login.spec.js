@@ -44,7 +44,7 @@ describe("Login Test", () => {
   it("Invalid Login- Incorrect password", () => {
     cy.fixture('BasicDetails').then(function (data) {
       cy.visit(data.AppUrl)
-      cy.get(locator.loginpage.emailInput).type(data.userName)
+      cy.get(locator.loginpage.emailInput).type(data.email)
       cy.get(locator.loginpage.passwordInput).type("Test@21020")
       cy.xpath(locator.loginpage.signInBtn).click()
     })
